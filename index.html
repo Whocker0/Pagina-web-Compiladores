@@ -51,6 +51,7 @@
                    return false;
                 }
 	}
+	
 
 	function obtenerdatos()
 	{
@@ -135,13 +136,13 @@
 		accept = true;
 		for (let index = 0; index < a_mac.length; index++) {
 			let x = a_mac[index];
-			if (esExadecimal(x) == false)
+			if (esExadecimal(x.at(0)) == false || esExadecimal(x.at(1)) == false)
 			{
-				accept = false
+				accept = false;
 				break;
 			}else if (parseInt(x,16) > 255)
 			{
-				accept = false
+				accept = false;
 				break;
 			}
 		}
