@@ -1,0 +1,235 @@
+<html>
+<head>
+<title>EJEMPLO DE OBTENCION DE DATOS CON JAVASCRIPT</title>
+<script type="text/javascript">
+
+	function esLetra(dato) {
+	/*Definición de los valores aceptados*/
+	var Mayusculas = /^[A-Z]+$/;
+	var Minusculas = /^[a-z]+$/;
+	var espacio = " "
+                if (dato.match(Minusculas)){
+					//alert("Min");
+                   return true;
+                }else if (dato.match(Mayusculas))
+				{
+					//alert("May");
+                   return true;
+				}else if (dato.match(espacio))
+				{
+					//alert("Esp");
+                   return true;
+				}
+				else{
+					alert("Cadena no aceptada");
+                   return false;
+                }
+	}
+	function esNumero(dato) {
+	/*Definición de los valores aceptados*/
+	var Numeros = /^[0-9]+$/;
+                if (dato.match(Numeros)){
+					//alert("Min");
+                   return true;
+                }else{
+					alert("Cadena no aceptada");
+                   return false;
+                }
+	}
+	function esExadecimal(dato) {
+	/*Definición de los valores aceptados*/
+	var Numeros = /^[0-9]+$/;
+	var Letras = /^[A-F]+$/;
+                if (dato.match(Numeros)){
+					//alert("Min");
+                   return true;
+                }else if(dato.match(Letras)){
+					return true;
+				}
+				else{
+					alert("Cadena no aceptada");
+                   return false;
+                }
+	}
+
+	function obtenerdatos()
+	{
+		var n_usuario = document.getElementById('n_usuario').value;
+		var nombre = document.getElementById('nombre').value;
+		var apellido = document.getElementById('apellido').value;
+		var tel = document.getElementById('tel').value;
+		var a_ip = [document.getElementById('ip').value,document.getElementById('ip1').value,document.getElementById('ip2').value,document.getElementById('ip3').value];
+		var a_mac = [document.getElementById('mac').value,document.getElementById('mac1').value,document.getElementById('mac2').value,document.getElementById('mac3').value,document.getElementById('mac4').value,document.getElementById('mac5').value];
+
+		var ip = "";
+		var mac = "";
+
+		//NUMERO DE USUARIO
+		var accept = true;
+		if  (n_usuario.length <= 5)
+		{
+			for (var i = 0; i < n_usuario.length; i++) {
+				if (esNumero(n_usuario.at(i)) == false){
+					accept = false;
+					break;
+				}
+			}
+		}
+		else{accept = false;
+			alert("Cadena no aceptada");}
+		if (accept == false){n_usuario = "No aceptada";}
+
+		//NOMBRE
+		accept = true;
+		for (var i = 0; i < nombre.length; i++) {
+			if (esLetra(nombre.at(i)) == false){
+				accept = false;
+				break;
+			}
+		}
+		if (accept == false){nombre = "No aceptada";}
+
+		//APELLIDO
+		accept = true;
+		for (var i = 0; i < apellido.length; i++) {
+			if (esLetra(apellido.at(i)) == false){
+				accept = false;
+				break;
+			}
+		}
+		if (accept == false){apellido = "No aceptada";}
+
+		//TELEFONO
+		accept = true;
+		if  (tel.length == 10)
+		{
+			for (var i = 0; i < tel.length; i++) {
+				if (esNumero(tel.at(i)) == false){
+					accept = false;
+					break;
+				}
+			}
+		}				
+		else{accept = false;
+			alert("Cadena no aceptada");}
+		if (accept == false){tel = "No aceptada";}
+
+		//IP
+		accept = true;
+		for (let index = 0; index < a_ip.length; index++) {
+			let x = a_ip[index];
+			if (esNumero(x) == false)
+			{
+				accept = false
+				break;
+			}else if (Number(x) > 255)
+			{
+				accept = false
+				break;
+			}
+		}
+		if (accept == true){ip = a_ip[0]+"."+a_ip[1]+"."+a_ip[2]+"."+a_ip[3];}
+		else{ip = "No aceptada";}
+
+		//MAC
+		accept = true;
+		for (let index = 0; index < a_mac.length; index++) {
+			let x = a_mac[index];
+			if (esExadecimal(x) == false)
+			{
+				accept = false
+				break;
+			}else if (parseInt(x,16) > 255)
+			{
+				accept = false
+				break;
+			}
+		}
+		if (accept == true){mac = a_mac[0]+":"+a_mac[1]+":"+a_mac[2]+":"+a_mac[3]+":"+a_mac[4]+":"+a_mac[5];}
+		else{mac = "No aceptada";}
+
+		//alert(parseInt("AD",16));
+
+		//ip = a_ip[0]+"."+a_ip[1];
+		/*
+		var t = 0;
+		for (var i = 0; i < ip.length; i++) {
+			if ((esNumero(ip.at(i)) == false)||(ip.at(i)!= ".")){
+				accept = false;
+				break;
+			}
+		}
+		if (accept == false){ip = "No aceptada";}
+		*/
+
+
+
+		document.registro.num_usuarioobtenida.value = n_usuario;
+		document.registro.nombreobtenido.value = nombre;
+		document.registro.apellidoobtenido.value = apellido;
+		document.registro.telobtenido.value = tel;
+		document.registro.ipobtenido.value = ip;
+		document.registro.macobtenido.value = mac;
+		
+
+	}
+</script>
+</head>
+<body>
+<form name="registro">
+<table border="1">
+<tr>
+	<td>Numero de Usuario:</td><td><input type="text" name="n_usuario" id="n_usuario" ></td>
+</tr>
+<tr>
+	<td>Nombre:</td><td><input type="text" name="nombre" id="nombre" ></td>
+</tr>	
+<tr>
+	<td>Apellido:</td><td><input type="text" name="apellido" id="apellido" ></td>
+</tr>
+<tr>
+	<td>Telefono:</td><td><input type="text" name="tel" id="tel" ></td>
+</tr>
+<tr>
+	<td>IP:</td><td><input type="text" name="ip" id="ip" ></td><td>.</td><td><input type="text" name="ip1" id="ip1" ></td><td>.</td><td><input type="text" name="ip2" id="ip2" ></td><td>.</td><td><input type="text" name="ip3" id="ip3" ></td>
+</tr>
+<tr>
+	<!--<td colspan "2"><input type="button" name="btn1" value="Enviar" onclick="obtenerdatos()"></td>-->
+</tr>
+</table>
+<table>
+<tr>
+	<td>MAC:</td><td><input type="text" name="mac" id="mac" ></td><td>:</td><td><input type="text" name="mac1" id="mac1" ></td><td>:</td><td><input type="text" name="mac2" id="mac2" ></td><td>:</td><td><input type="text" name="mac3" id="mac3" ></td><td>:</td><td><input type="text" name="mac4" id="mac4" ></td><td>:</td><td><input type="text" name="mac5" id="mac5" ></td>
+</tr>
+</table>
+
+<td colspan "2"><input type="button" name="btn1" value="Enviar" onclick="obtenerdatos()"></td>
+<br/><br/><br/>
+
+
+
+
+<table border="1">
+<tr>
+	<td>Numero de Usuario:</td><td><input type="text" name="num_usuarioobtenida" id="num_usuarioobtenida" ></td>
+</tr>
+<tr>
+	<td>Nombre:</td><td><input type="text" name="nombreobtenido" id="nombreobtenido" ></td>
+</tr>	
+<tr>
+	<td>Apellido:</td><td><input type="text" name="apellidoobtenido" id="apellidoobtenido" ></td>
+</tr>
+<tr>
+	<td>Telefono:</td><td><input type="text" name="telobtenido" id="telobtenido" ></td>
+</tr>
+<tr>
+	<td>IP:</td><td><input type="text" name="ipobtenido" id="ipobtenido" ></td>
+</tr>
+<tr>
+	<td>MAC:</td><td><input type="text" name="macobtenido" id="macobtenido" ></td>
+</tr>
+</table>
+</form>
+</center>
+</body>
+</html>
